@@ -3,7 +3,7 @@ import random
 def createMatrixGraph(vertices, edges):
 	graph = [[0 for x in range(len(vertices))] for y in range(len(vertices))] 
 	for i in range(len(edges)):  
-	  	graph[edges[i][0] - 1][edges[i][1] - 1] = 1 
+		graph[edges[i][0] - 1][edges[i][1] - 1] = 1 
 		graph[edges[i][1] - 1][edges[i][0] - 1] = 1
 	return graph
 
@@ -11,11 +11,11 @@ def getGraphComplement(graph):
 	for i in range(len(graph)):
 		for j in range(len(graph)):
 			if i == j:
-		  		continue
+				continue
 			if graph[i][j] == 1:
-		  		graph[i][j] = 0
+				graph[i][j] = 0
 			elif graph[i][j] == 0:
-		  		graph[i][j] = 1
+				graph[i][j] = 1
 	return graph
 
 def getComplementEdges(graph):
@@ -39,24 +39,24 @@ def computeVerticesDegree(vertices, edges):
 		for edge in edges:
 			sumDegrees += edge.count(vertice)
 		degrees.append(sumDegrees)
- 	return degrees
+	return degrees
 
 def getMaxDegree(degrees, vertices):
- 	maxDegreeIndex = 0
- 	maxDegree = 0
- 	for i in range(len(degrees)):
- 		if degrees[i] > maxDegree:
- 			maxDegree = degrees[i]
- 			maxDegreeIndex = i
- 	return vertices[maxDegreeIndex] 
+	maxDegreeIndex = 0
+	maxDegree = 0
+	for i in range(len(degrees)):
+		if degrees[i] > maxDegree:
+			maxDegree = degrees[i]
+			maxDegreeIndex = i
+	return vertices[maxDegreeIndex] 
 
 
 def candidatesVertices(vertices, degrees, threshold):
 	candidates = []
 	for i in range(len(vertices)):
-  		if(degrees[i] <= threshold):
-   			candidates.append(vertices[i])
- 	return candidates
+		if(degrees[i] <= threshold):
+			candidates.append(vertices[i])
+	return candidates
 
 def setNewVertices(vertices, edges, newVertice):
 	remove = []
@@ -71,48 +71,48 @@ def setNewVertices(vertices, edges, newVertice):
 		vertices.remove(vertice)
 		removedEdges = []
 		for edge in edges:
-	  		if(edge[0] == vertice or edge[1] == vertice):
-	   			removedEdges.append(edge)
-	 	for removedEdge in removedEdges:
-	  		edges.remove(removedEdge)  
- 
+			if(edge[0] == vertice or edge[1] == vertice):
+				removedEdges.append(edge)
+		for removedEdge in removedEdges:
+			edges.remove(removedEdge)  
+
 def getNeighbors(vertice, edges):
- 	neighbors = []
- 	for edge in edges:
-	  	if(edge[0] == vertice):
-	   		neighbors.append(edge[1])
-	  	if(edge[1] == vertice):
-	   		neighbors.append(edge[0])
- 	return neighbors
+	neighbors = []
+	for edge in edges:
+		if(edge[0] == vertice):
+			neighbors.append(edge[1])
+		if(edge[1] == vertice):
+			neighbors.append(edge[0])
+	return neighbors
 
 def getNonAdjacentNeighbors(allNeighbors, solution, edges, w):
 	neighbors = []
 	for an in allNeighbors: 
 		areNeighborsAdjacents = False
 		for s in solution:
-		   	if(s != w):
+			if(s != w):
 				for edge in edges:
-				 	if(edge[0] == an and edge[1] == s):
-				  		areNeighborsAdjacents = True
-				  		break
-				 	if(edge[1] == an and edge[0] == s):
-				  		areNeighborsAdjacents = True
-				  		break
-				 	if(len(neighbors) == 1):
-				  		if(edge[0] == an and edge[1] == neighbors[0]):
-				   			areNeighborsAdjacents = True
-				   			break
-				  		if(edge[1] == an and edge[0] == neighbors[0]):
-						   	areNeighborsAdjacents = True
-						   	break
-		   	if(areNeighborsAdjacents):
-		   		break
-  		if (not areNeighborsAdjacents):
-   			neighbors.append(an)
-  		if(len(neighbors) == 2):
-   			neighbors.append(w)
-   			break
- 	return neighbors  
+					if(edge[0] == an and edge[1] == s):
+						areNeighborsAdjacents = True
+						break
+					if(edge[1] == an and edge[0] == s):
+						areNeighborsAdjacents = True
+						break
+					if(len(neighbors) == 1):
+						if(edge[0] == an and edge[1] == neighbors[0]):
+							areNeighborsAdjacents = True
+							break
+						if(edge[1] == an and edge[0] == neighbors[0]):
+							areNeighborsAdjacents = True
+							break
+			if(areNeighborsAdjacents):
+				break
+		if (not areNeighborsAdjacents):
+			neighbors.append(an)
+		if(len(neighbors) == 2):
+			neighbors.append(w)
+			break
+	return neighbors  
 
 #(u, v, w) where u and v are nonadjacent to all vertices except w
 def getAdjacentsW(solution, edges):
@@ -152,17 +152,17 @@ def localSearch(solution, edges):
 	h = getAdjacentsW(solution, edges)
 
 	indexs = random.sample(range(0, 3), 3)
- 	while(len(h) == 3):
+	while(len(h) == 3):
 		solution.remove(h[2])
 		solution.append(h[1])
 		solution.append(h[0])
 		h = getAdjacentsW(solution, edges)
- 	return solution
+	return solution
 
 def grasp(maxIteration, vertices, edges):
 	bestSolution = []
 			
- 	for i in range(maxIteration):
+	for i in range(maxIteration):
 
 		seed = random.uniform(0, 1)
 
@@ -171,5 +171,5 @@ def grasp(maxIteration, vertices, edges):
 		localSolution = localSearch(greedySolution, edges)
 		
 		if(len(localSolution) > len(bestSolution)):
-   			bestSolution = localSolution
-   	return bestSolution
+			bestSolution = localSolution
+	return bestSolution
